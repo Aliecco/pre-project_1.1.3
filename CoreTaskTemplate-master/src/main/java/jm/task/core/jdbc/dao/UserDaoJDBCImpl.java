@@ -48,7 +48,7 @@ public class UserDaoJDBCImpl implements UserDao {
     public void saveUser(String name, String lastName, byte age) {
         try (Connection conn = Util.getMySQLConnection(); Statement stm = conn.createStatement()) {
             String str = "insert into " + table + "(name, lastName, age) " +
-                    "values('"+name+"','"+lastName+"', "+age+");";
+                    "values('" + name + "','" + lastName + "', " + age + ");";
             stm.executeUpdate(str);
             System.out.println("User с именем " + name + "добавлен");
 
