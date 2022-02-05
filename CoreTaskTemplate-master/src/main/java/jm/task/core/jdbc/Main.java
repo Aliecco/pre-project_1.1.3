@@ -14,20 +14,14 @@ public class Main {
     public static void main(String[] args) {
         UserServiceImpl usr = new UserServiceImpl();
         usr.createUsersTable();
-        usr.saveUser("ASdbjc", "ascx", (byte) 45);
-        usr.saveUser("hbnk", "dgc", (byte) 4);
-        usr.saveUser("yghbn", "ihj,", (byte) 23);
-        usr.saveUser("rdgf", "wsf", (byte) 38);
+        usr.saveUser("Dale", "Cooper", (byte) 32);
+        usr.saveUser("Laura", "Palmer", (byte) 17);
+        usr.saveUser("Harry", "Truman", (byte) 35);
+        usr.saveUser("Josie", "Packard", (byte) 30);
         List<User> list = usr.getAllUsers();
-
         for (int i = 0; i < list.size(); i++) {
-            StringBuilder table = new StringBuilder();
-            table.append(list.get(i).getId().toString()).append(" ").append(list.get(i).getName().toString())
-                    .append(" ").append(list.get(i).getLastName().toString()).append(" ")
-                    .append(list.get(i).getAge().toString()).append(" ");
-            System.out.println(table);
+            System.out.println(list.get(i).toString());
         }
-        //usr.removeUserById(4);
         usr.cleanUsersTable();
         usr.dropUsersTable();
     }
