@@ -24,7 +24,7 @@ public class Util {
         }
         return null;
     }
-    public static boolean closeConnection(){
+    public static void closeConnection(){
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
 
@@ -32,10 +32,8 @@ public class Util {
 
             DriverManager.getConnection(connectionURL, userName,
                     password).close();
-            return true;
         } catch (SQLException | ClassNotFoundException e){
             System.out.println("Ошибка при закрытии соединения");
         }
-        return false;
     }
 }
