@@ -26,7 +26,6 @@ public class UserDaoJDBCImpl implements UserDao {
                     " `age` INT(3) NULL, " +
                     " PRIMARY KEY (`id`));";
             PreparedStatement stm = conn.prepareStatement(str);
-            //stm.setString(1, table);
             stm.executeUpdate();
             conn.commit();
 
@@ -42,7 +41,6 @@ public class UserDaoJDBCImpl implements UserDao {
             conn.setAutoCommit(false);
             String str = "DROP TABLE " + table + ";";
             PreparedStatement stm = conn.prepareStatement(str);
-            //stm.setString(1, table);
             stm.executeUpdate();
             conn.commit();
 
@@ -56,10 +54,11 @@ public class UserDaoJDBCImpl implements UserDao {
     public void saveUser(String name, String lastName, byte age) {
         try {
             conn.setAutoCommit(false);
-            String str = "insert into " + table + " (name, lastName, age) " +
-                    "values('" + name + "','" + lastName + "', " + age + ");";
+            String str = "insert into " + table + " (name, lastName, age) values(?,?,?);";
             PreparedStatement stm = conn.prepareStatement(str);
-            //stm.setString(1, table);
+            stm.setString(1, name);
+            stm.setString(2, lastName);
+            stm.setByte(3, age);
             stm.executeUpdate();
             conn.commit();
 
@@ -100,7 +99,6 @@ public class UserDaoJDBCImpl implements UserDao {
             conn.setAutoCommit(false);
             String str = "select id, name, lastName, age from " + table +";";
             PreparedStatement stm = conn.prepareStatement(str);
-            //stm.setString(1, table);
             ResultSet rs = stm.executeQuery();
             conn.commit();
 
@@ -128,7 +126,6 @@ public class UserDaoJDBCImpl implements UserDao {
             conn.setAutoCommit(false);
             String str = "DELETE FROM " + table + ";";
             PreparedStatement stm = conn.prepareStatement(str);
-            //stm.setString(1, table);
             stm.executeUpdate();
             conn.commit();
 
