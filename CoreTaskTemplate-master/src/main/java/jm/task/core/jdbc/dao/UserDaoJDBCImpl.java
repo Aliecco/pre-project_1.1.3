@@ -10,13 +10,14 @@ import java.util.List;
 public class UserDaoJDBCImpl implements UserDao {
 
     private final String table = "new_table";
+    private Connection conn;
 
     public UserDaoJDBCImpl() {
-
+        conn = Util.getMySQLConnection();
     }
 
     public void createUsersTable() {
-        try (Connection conn = Util.getMySQLConnection()) {
+        try {
             conn.setAutoCommit(false);
             String str = "CREATE TABLE `testdb`.`"+table+"` ( " +
                     " `id` INT NOT NULL AUTO_INCREMENT, " +
@@ -31,13 +32,13 @@ public class UserDaoJDBCImpl implements UserDao {
 
             System.out.println("Таблица создана");
 
-        } catch (SQLException | ClassNotFoundException ignore) {
+        } catch (SQLException ignore) {
 
         }
     }
 
     public void dropUsersTable() {
-        try (Connection conn = Util.getMySQLConnection()) {
+        try {
             conn.setAutoCommit(false);
             String str = "DROP TABLE " + table + ";";
             PreparedStatement stm = conn.prepareStatement(str);
@@ -47,13 +48,13 @@ public class UserDaoJDBCImpl implements UserDao {
 
             System.out.println("Таблица удалена");
 
-        } catch (SQLException | ClassNotFoundException ignore) {
+        } catch (SQLException ignore) {
 
         }
     }
 
     public void saveUser(String name, String lastName, byte age) {
-        try (Connection conn = Util.getMySQLConnection()) {
+        try {
             conn.setAutoCommit(false);
             String str = "insert into " + table + " (name, lastName, age) " +
                     "values('" + name + "','" + lastName + "', " + age + ");";
@@ -64,13 +65,17 @@ public class UserDaoJDBCImpl implements UserDao {
 
             System.out.println("User с именем " + name + " добавлен");
 
-        } catch (SQLException | ClassNotFoundException ignore) {
-
+        } catch (SQLException ignore) {
+            try {
+                conn.rollback();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     public void removeUserById(long id) {
-        try (Connection conn = Util.getMySQLConnection()) {
+        try {
             conn.setAutoCommit(false);
             String str = "DELETE FROM " + table + " WHERE id = ?;";
             PreparedStatement stm = conn.prepareStatement(str);
@@ -80,14 +85,18 @@ public class UserDaoJDBCImpl implements UserDao {
 
             System.out.println("User удален");
 
-        } catch (SQLException | ClassNotFoundException ignore) {
-
+        } catch (SQLException ignore) {
+            try {
+                conn.rollback();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     public List<User> getAllUsers() {
         List<User> list = new ArrayList<>();
-        try (Connection conn = Util.getMySQLConnection()) {
+        try {
             conn.setAutoCommit(false);
             String str = "select id, name, lastName, age from " + table +";";
             PreparedStatement stm = conn.prepareStatement(str);
@@ -104,14 +113,18 @@ public class UserDaoJDBCImpl implements UserDao {
                 list.add(user);
             }
 
-        } catch (SQLException | ClassNotFoundException ignore) {
-
+        } catch (SQLException ignore) {
+            try {
+                conn.rollback();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return list;
     }
 
     public void cleanUsersTable() {
-        try (Connection conn = Util.getMySQLConnection()) {
+        try {
             conn.setAutoCommit(false);
             String str = "DELETE FROM " + table + ";";
             PreparedStatement stm = conn.prepareStatement(str);
@@ -121,7 +134,7 @@ public class UserDaoJDBCImpl implements UserDao {
 
             System.out.println("Таблица очищена");
 
-        } catch (SQLException | ClassNotFoundException ignore) {
+        } catch (SQLException ignore) {
 
         }
     }

@@ -6,19 +6,12 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Util {
+    private final static String hostName = "localhost";
+    private final static String dbName = "testdb";
+    private final static String userName = "root";
+    private final static String password = "alisher123";
 
-    public static Connection getMySQLConnection() throws SQLException,
-            ClassNotFoundException {
-        final String hostName = "localhost";
-        final String dbName = "testdb";
-        final String userName = "root";
-        final String password = "alisher123";
-
-        return getMySQLConnection(hostName, dbName, userName, password);
-    }
-
-    public static Connection getMySQLConnection(String hostName, String dbName,
-                                                String userName, String password) {
+    public static Connection getMySQLConnection() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
 
@@ -30,5 +23,19 @@ public class Util {
             System.out.println("Ошибка при подключении к БД");
         }
         return null;
+    }
+    public static boolean closeConnection(){
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            String connectionURL = "jdbc:mysql://" + hostName + ":3306/" + dbName;
+
+            DriverManager.getConnection(connectionURL, userName,
+                    password).close();
+            return true;
+        } catch (SQLException | ClassNotFoundException e){
+            System.out.println("Ошибка при закрытии соединения");
+        }
+        return false;
     }
 }
