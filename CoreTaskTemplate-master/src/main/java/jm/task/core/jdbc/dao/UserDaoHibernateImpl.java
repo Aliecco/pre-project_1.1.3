@@ -2,8 +2,12 @@ package jm.task.core.jdbc.dao;
 
 import jm.task.core.jdbc.model.User;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.List;
 
+//@Entity
+//@Table(name = "new_table")
 public class UserDaoHibernateImpl implements UserDao {
     public UserDaoHibernateImpl() {
 

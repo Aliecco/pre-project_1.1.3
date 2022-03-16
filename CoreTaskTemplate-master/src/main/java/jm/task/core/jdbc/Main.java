@@ -15,9 +15,10 @@ public class Main {
         usr.saveUser("Laura", "Palmer", (byte) 17);
         usr.saveUser("Harry", "Truman", (byte) 35);
         usr.saveUser("Josie", "Packard", (byte) 30);
+        usr.removeUserById(1);
         List<User> list = usr.getAllUsers();
-        for (int i = 0; i < list.size(); i++) {
-            System.out.println(list.get(i).toString());
+        for (User user : list) {
+            System.out.println(user.toString());
         }
         usr.cleanUsersTable();
         usr.dropUsersTable();
